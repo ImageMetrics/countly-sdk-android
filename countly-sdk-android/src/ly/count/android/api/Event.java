@@ -43,7 +43,7 @@ class Event {
     private static final String TIMESTAMP_KEY = "timestamp";
 
     public String key;
-    public Map<String, String> segmentation;
+    public Map<String, Object> segmentation;
     public int count;
     public double sum;
     public int timestamp;
@@ -98,12 +98,12 @@ class Event {
 
             if (!json.isNull(SEGMENTATION_KEY)) {
                 final JSONObject segm = json.getJSONObject(SEGMENTATION_KEY);
-                final HashMap<String, String> segmentation = new HashMap<String, String>(segm.length());
+                final HashMap<String, Object> segmentation = new HashMap<String, Object>(segm.length());
                 final Iterator nameItr = segm.keys();
                 while (nameItr.hasNext()) {
                     final String key = (String) nameItr.next();
                     if (!segm.isNull(key)) {
-                        segmentation.put(key, segm.getString(key));
+                        segmentation.put(key, segm.get(key));
                     }
                 }
                 event.segmentation = segmentation;

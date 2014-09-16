@@ -157,7 +157,7 @@ public class CountlyStore {
      * @param sum sum associated with the custom event, if not used, pass zero.
      *            NaN and infinity values will be quietly ignored.
      */
-    public synchronized void addEvent(final String key, final Map<String, String> segmentation, final int timestamp, final int count, final double sum) {
+    public synchronized void addEvent(final String key, final Map<String, Object> segmentation, final int timestamp, final int count, final double sum) {
         final Event event = new Event();
         event.key = key;
         event.segmentation = segmentation;

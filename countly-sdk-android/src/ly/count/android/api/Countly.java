@@ -286,7 +286,7 @@ public class Countly {
      * @throws IllegalStateException if Countly SDK has not been initialized
      * @throws IllegalArgumentException if key is null or empty
      */
-    public void recordEvent(final String key, final Map<String, String> segmentation, final int count) {
+    public void recordEvent(final String key, final Map<String, Object> segmentation, final int count) {
         recordEvent(key, segmentation, count, 0);
     }
 
@@ -300,7 +300,7 @@ public class Countly {
      * @throws IllegalArgumentException if key is null or empty, count is less than 1, or if
      *                                  segmentation contains null or empty keys or values
      */
-    public synchronized void recordEvent(final String key, final Map<String, String> segmentation, final int count, final double sum) {
+    public synchronized void recordEvent(final String key, final Map<String, Object> segmentation, final int count, final double sum) {
         if (eventQueue_ == null) {
             throw new IllegalStateException("Countly.sharedInstance().init must be called before recordEvent");
         }
@@ -315,7 +315,8 @@ public class Countly {
                 if (k == null || k.length() == 0) {
                     throw new IllegalArgumentException("Countly event segmentation key cannot be null or empty");
                 }
-                if (segmentation.get(k) == null || segmentation.get(k).length() == 0) {
+                if (segmentation.get(k) == null ||
+                    ((segmentation.get(k) instanceof String) && ((String)segmentation.get(k)).length() == 0)) {
                     throw new IllegalArgumentException("Countly event segmentation value cannot be null or empty");
                 }
             }
