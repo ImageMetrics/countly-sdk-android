@@ -23,6 +23,7 @@ package ly.count.android.api;
 
 import android.content.Context;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -44,6 +45,7 @@ public class ConnectionQueue {
     private Context context_;
     private String serverURL_;
     private Future<?> connectionProcessorFuture_;
+    private String uuid;
 
     // Getters are for unit testing
     String getAppKey() {
@@ -103,10 +105,14 @@ public class ConnectionQueue {
      */
     void beginSession() {
         checkInternalState();
+        uuid = UUID.randomUUID().toString();
         final String data = "app_key=" + appKey_
+                          + "&device_id=" + DeviceInfo.getDeviceID()
                           + "&timestamp=" + Countly.currentTimestamp()
                           + "&sdk_version=" + Countly.COUNTLY_SDK_VERSION_STRING
                           + "&begin_session=1"
+                          + "&is_app_launch=1" // beginSession only get called on app starts in Android 
+                          + "&session_id=" + uuid
                           + "&metrics=" + DeviceInfo.getMetrics(context_);
 
         store_.addConnection(data);
@@ -124,6 +130,8 @@ public class ConnectionQueue {
         checkInternalState();
         if (duration > 0) {
             final String data = "app_key=" + appKey_
+                              + "&device_id=" + DeviceInfo.getDeviceID()
+                              + "&session_id=" + uuid
                               + "&timestamp=" + Countly.currentTimestamp()
                               + "&session_duration=" + duration;
 
@@ -142,6 +150,8 @@ public class ConnectionQueue {
     void endSession(final int duration) {
         checkInternalState();
         String data = "app_key=" + appKey_
+                    + "&device_id=" + DeviceInfo.getDeviceID()
+                    + "&session_id=" + uuid
                     + "&timestamp=" + Countly.currentTimestamp()
                     + "&end_session=1";
         if (duration > 0) {
@@ -161,6 +171,8 @@ public class ConnectionQueue {
     void recordEvents(final String events) {
         checkInternalState();
         final String data = "app_key=" + appKey_
+                          + "&device_id=" + DeviceInfo.getDeviceID()
+                          + "&session_id=" + uuid
                           + "&timestamp=" + Countly.currentTimestamp()
                           + "&events=" + events;
 

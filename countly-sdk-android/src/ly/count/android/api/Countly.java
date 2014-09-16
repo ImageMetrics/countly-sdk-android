@@ -41,7 +41,7 @@ public class Countly {
      * Default string used in the begin session metrics if the
      * app version cannot be found.
      */
-    public static final String DEFAULT_APP_VERSION = "1.0";
+    public static final String DEFAULT_APP_VERSION = "1000.0";
     /**
      * Tag used in all logging in the Count.ly SDK.
      */
