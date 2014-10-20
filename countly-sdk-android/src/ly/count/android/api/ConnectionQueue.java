@@ -46,6 +46,7 @@ public class ConnectionQueue {
     private String serverURL_;
     private Future<?> connectionProcessorFuture_;
     private String uuid;
+    public String countryCode;
 
     // Getters are for unit testing
     String getAppKey() {
@@ -173,6 +174,7 @@ public class ConnectionQueue {
         final String data = "app_key=" + appKey_
                           + "&device_id=" + DeviceInfo.getDeviceID()
                           + "&session_id=" + uuid
+                          + "&country_code=" + countryCode != null ? countryCode : "<none>"
                           + "&timestamp=" + Countly.currentTimestamp()
                           + "&events=" + events;
 

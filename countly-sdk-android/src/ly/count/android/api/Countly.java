@@ -349,6 +349,11 @@ public class Countly {
         return enableLogging_;
     }
 
+    public void setCountryCode(String countryCode)
+    {
+      this.connectionQueue_.countryCode = countryCode;
+    }
+    
     /**
      * Submits all of the locally queued events to the server if there are more than 10 of them.
      */
