@@ -114,6 +114,7 @@ public class ConnectionQueue {
                           + "&begin_session=1"
                           + "&is_app_launch=1" // beginSession only get called on app starts in Android 
                           + "&session_id=" + uuid
+                          + "&country_code=" + countryCode != null ? countryCode : "<none>"
                           + "&metrics=" + DeviceInfo.getMetrics(context_);
 
         store_.addConnection(data);
@@ -133,6 +134,7 @@ public class ConnectionQueue {
             final String data = "app_key=" + appKey_
                               + "&device_id=" + DeviceInfo.getDeviceID()
                               + "&session_id=" + uuid
+                              + "&country_code=" + countryCode != null ? countryCode : "<none>"
                               + "&timestamp=" + Countly.currentTimestamp()
                               + "&session_duration=" + duration;
 
@@ -153,6 +155,7 @@ public class ConnectionQueue {
         String data = "app_key=" + appKey_
                     + "&device_id=" + DeviceInfo.getDeviceID()
                     + "&session_id=" + uuid
+                    + "&country_code=" + countryCode != null ? countryCode : "<none>"
                     + "&timestamp=" + Countly.currentTimestamp()
                     + "&end_session=1";
         if (duration > 0) {
