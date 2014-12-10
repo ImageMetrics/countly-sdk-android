@@ -67,7 +67,21 @@ public class CountlyStore {
      */
     public String[] connections() {
         final String joinedConnStr = preferences_.getString(CONNECTIONS_PREFERENCE, "");
-        return joinedConnStr.length() == 0 ? new String[0] : joinedConnStr.split(DELIMITER);
+        if(joinedConnStr.length() == 0)
+        {
+          return new String[0];
+        }
+
+        // Need to fix bug where all we got in here were a bunch of country codes and nothing else
+        List<String> strings = new ArrayList<String>();
+        for(String str : joinedConnStr.split(DELIMITER))
+        {
+          if(str.startsWith("app_key"))
+          {
+            strings.add(str);
+          }
+        }
+        return strings.toArray(new String[strings.size()]);
     }
 
     /**
@@ -75,7 +89,21 @@ public class CountlyStore {
      */
     public String[] events() {
         final String joinedEventsStr = preferences_.getString(EVENTS_PREFERENCE, "");
-        return joinedEventsStr.length() == 0 ? new String[0] : joinedEventsStr.split(DELIMITER);
+        if(joinedEventsStr.length() == 0)
+        {
+          return new String[0];
+        }
+
+        // Need to fix bug where all we got in here were a bunch of country codes and nothing else
+        List<String> strings = new ArrayList<String>();
+        for(String str : joinedEventsStr.split(DELIMITER))
+        {
+          if(str.length() > 3)
+          {
+            strings.add(str);
+          }
+        }
+        return strings.toArray(new String[strings.size()]);
     }
 
     /**
